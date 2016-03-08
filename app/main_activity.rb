@@ -19,17 +19,20 @@ class MainActivity < Android::App::Activity
     offset = 6
     current_cycle_index = (current_hour) % 20 + offset
     next_cycle_index = (current_hour) % 20 + offset + 1
+    
+    next_cycle_index = 0 if next_cycle_index == 20
+    
     current_cycle = "Current Cycle | until #{Time.at((Time.now.to_i)).strftime('%H:59:59')} - #{@complete_list[current_cycle_index]}"
     next_cycle =  "Next Cycle | starting #{Time.at((Time.now.to_i + 3600)).strftime('%H:00')} - #{@complete_list[next_cycle_index]}"
     reminder_cycle = []
+    
     #puts next_cycle_index # used to validate the loopback after I reach the end of the cycle list 
-    if next_cycle_index < 20
-      reminder_cycle = reminder_cycle << @complete_list[next_cycle_index + 1 .. @complete_list.length + 1 ]
+    if next_cycle_index > 0
+      reminder_cycle = reminder_cycle << @complete_list[next_cycle_index + 1 .. @complete_list.length + 1 ] 
       reminder_cycle = reminder_cycle << @complete_list[0.. current_cycle_index - 1]
     else
-      reminder_cycle = reminder_cycle << @complete_list
+      reminder_cycle = reminder_cycle << @complete_list[1 .. @complete_list.length + 1 ] 
     end
-    
     complete_cycle = [current_cycle, next_cycle]
 
     reminder_cycle.each_with_index do |cycle, index|
