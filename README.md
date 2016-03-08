@@ -1,6 +1,9 @@
 # DiabloIIIBountyBonusAct
 Tracks Diablo III Bonus Act
 
+Credits goes to Zujg on diablo fans for providing the original spreadsheet.
+http://www.diablofans.com/news/48670-zujgs-bonus-bounties-table
+
 #Requirements
 In order to use, you need an Android Device (5.x +) with USB Debugging active.
 You also need Ruby Motion installed. (http://www.rubymotion.com/)
