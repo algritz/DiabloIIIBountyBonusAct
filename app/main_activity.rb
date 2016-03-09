@@ -60,7 +60,7 @@ class MainActivity < Android::App::Activity
     end
     
     restart_cycle.each_with_index do |cycle, index|
-      complete_cycle << "#{Time.at((Time.now.to_i + (3600 * (index + 2)))).strftime('%D %H:00')} - #{cycle}"
+      complete_cycle << "#{Time.at((Time.now.to_i + (3600 * (index + 2 + reminder_cycle.count)))).strftime('%D %H:00')} - #{cycle}"
       puts cycle
     end
     
