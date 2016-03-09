@@ -10,5 +10,5 @@ end
 
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
-  app.name = 'DiabloIIIBountyBonusActs'
+  app.name = 'Diablo III Bounty Bonus Acts'
 end
