@@ -1,18 +1,39 @@
+class TimerTask < Java::Util::TimerTask
+  attr_accessor :activity
+
+  def run
+    # This method will be called from another thread, and UI work must
+    # happen in the main thread, so we dispatch it via a Handler object.
+    @activity.handler.post -> { @activity.refresh_data }
+  end
+end
+
+
 class MainActivity < Android::App::Activity
+  attr_reader :handler
   def onCreate(savedInstanceState)
     puts 'Diablo III Bounty Bonus Acts'
-    puts 'Started'
     super
+    @handler = Android::Os::Handler.new
     view = Android::Widget::TextView.new(self)
     view.text = 'Diablo III Bounty Bonus Acts'
 
-    list = Android::Widget::ListView.new(self)
-    list.adapter = adapter
-
-    self.contentView = list
-
+    @list = Android::Widget::ListView.new(self)
+    #create the Timer instance that will refresh the list every 5 seconds.
+    @timer = Java::Util::Timer.new
+    task = TimerTask.new
+    task.activity = self
+    @timer.schedule task , 0, 5000 
+  
   end
-
+  
+  def refresh_data
+    #refresh job, will invalidate list content then request the update
+    @list.adapter = adapter
+    @list.invalidateViews()
+    self.contentView = @list
+  end
+  
   def adapter
     @complete_list = [[5,2,3,1,4],[2,3,1,4,5],[3,1,4,2,5],[1,4,2,5,3],[4,2,1,5,3],[2,1,5,3,4],[1,5,3,4,2],[5,3,4,1,2],[3,4,1,2,5],[4,1,3,2,5],[1,3,2,5,4],[3,2,5,4,1],[2,5,4,3,1],[5,4,3,1,2],[4,3,5,1,2],[3,5,1,2,4],[5,1,2,4,3],[1,2,4,5,3],[2,4,5,3,1],[4,5,2,3,1]]
     current_hour =  Time.now.to_i / 3600
